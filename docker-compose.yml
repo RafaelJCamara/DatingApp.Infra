@@ -12,8 +12,9 @@ services:
       - rabbitmqdata:/var/lib/rabbitmq
     hostname: rabbitmq
 
-  cache:
+  redis:
     image: redis:6.2-alpine
+    container_name: redis
     restart: always
     ports:
       - "6379:6379"
@@ -21,6 +22,17 @@ services:
     volumes:
       - cache:/data
 
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - 9443:9443
+    volumes:
+      - data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
 volumes:
   rabbitmqdata:
   cache:
+  data:
